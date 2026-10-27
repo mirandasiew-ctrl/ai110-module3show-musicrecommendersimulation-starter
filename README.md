@@ -57,7 +57,7 @@ I choose which songs to recommend by calculating a similarity score for each son
 - Calculate similarity scores for numerical features—energy, tempo, valence, danceability, and acousticness—giving higher scores to values closer to the user's preferences.
 - Add the weighted points to get a total score out of 100.
 - Sort the songs from highest to lowest score.
-- Return the top three highest-scoring songs, excluding the song the user is already listening to.
+- Return the top five highest-scoring songs, excluding the song the user is already listening to.
 
 This approach prioritizes songs that most closely match the user's musical preferences.
 
@@ -99,7 +99,7 @@ Sort all scored songs from highest to lowest. Exclude the currently selected son
 
 **Step 3 — Rank:** sort the remaining songs by total score, highest first. Ties keep their original CSV order.
 
-**Step 4 — Return:** the top 3 songs, each with its score and reasons.
+**Step 4 — Return:** the top 5 songs, each with its score and reasons.
 
 **Example:** for a user who likes pop / happy music with energy 0.8, tempo 120, valence 0.8, danceability 0.8, and acousticness 0.2, *Sunrise City* scores about 99, *Gym Hero* about 75, and *Rooftop Lights* about 73.
 
@@ -108,7 +108,7 @@ Sort all scored songs from highest to lowest. Exclude the currently selected son
 - **Labels over sound:** genre and mood are worth 45 points but only count on an exact match. In the example above, *Gym Hero* (pop, intense) beats *Rooftop Lights* (indie pop, happy) even though *Rooftop Lights* fits the user's happy mood better. Similar moods like "chill" and "relaxed" also get no credit.
 - **Uneven catalog:** most genres have only one song, while lofi has three. Lofi and pop fans get strong matches, but fans of metal, classical, or salsa get at most one genre match. The rest of their list is filled by songs that only roughly match on energy and tempo.
 - **Intensity counted more than once:** energy, tempo, and danceability usually rise together, so about 35 points mostly measure one thing. Acousticness is worth only 5 points, so acoustic preferences barely change the results.
-- **Filter bubble:** each preference is a single target value, so users with varied taste can't be represented. Nothing rewards variety, so the top 3 tend to be very similar songs.
+- **Filter bubble:** each preference is a single target value, so users with varied taste can't be represented. Nothing rewards variety, so the top 5 tend to be very similar songs.
 - **Subjective data:** each song has one genre and one mood picked by the dataset author, and the genre list leans toward Western music.
 ---
 
@@ -158,6 +158,23 @@ Paste a sample of your recommender's output here as a text block so a reader can
 #   1. ...
 #   2. ...
 #   3. ...
+
+Loading songs from data/songs.csv...
+Loaded songs: 20
+
+User profile: genre=pop, mood=happy, energy=0.8, tempo_bpm=120, valence=0.8, danceability=0.8, acousticness=0.2
+Recommendations:
+  1. Sunrise City by Neon Echo - Score: 98.74
+     Because: genre match (+25); mood match (+20); energy close to target (+14.7); valence close to target (+14.4); tempo_bpm close to target (+9.8); danceability close to target (+9.9); acousticness close to target (+4.9)
+  2. Gym Hero by Max Pulse - Score: 75.07
+     Because: genre match (+25); energy close to target (+13.1); valence close to target (+14.5); tempo_bpm close to target (+9.0); danceability close to target (+9.2); acousticness close to target (+4.2)
+  3. Rooftop Lights by Indigo Parade - Score: 72.97
+     Because: mood match (+20); energy close to target (+14.4); valence close to target (+14.8); tempo_bpm close to target (+9.7); danceability close to target(+9.8); acousticness close to target (+4.2)
+  4. Runway Lights by Avery Lane - Score: 52.29
+     Because: energy close to target (+14.3); valence close to target (+14.7); tempo_bpm close to target (+9.8); danceability close to target (+8.9); acousticness close to target (+4.6)
+  5. Island Motion by Coral Beat - Score: 49.33
+     Because: energy close to target (+13.5); valence close to target (+13.8); tempo_bpm close to target (+8.0); danceability close to target (+9.6); acousticness close to target (+4.4)
+     
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->

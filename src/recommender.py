@@ -2,14 +2,14 @@ import csv
 from typing import List, Dict, Tuple, Optional
 
 # Scoring weights from the Algorithm Recipe in README.md (max total = 100)
-GENRE_POINTS = 25
-MOOD_POINTS = 20
+GENRE_POINTS = 15
+MOOD_POINTS = 15
 NUMERIC_WEIGHTS = {
-    "energy": 15,
-    "valence": 15,
+    "energy": 20,
+    "valence": 20,
     "tempo_bpm": 10,
     "danceability": 10,
-    "acousticness": 5,
+    "acousticness": 10,
 }
 TEMPO_RANGE = 122  # catalog BPM range (54-176), used to scale tempo to 0-1
 from dataclasses import dataclass
@@ -81,9 +81,10 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     if "genre" in user_prefs and song["genre"].lower() == user_prefs["genre"].lower():
         score += GENRE_POINTS
         reasons.append(f"genre match (+{GENRE_POINTS})")
-    if "mood" in user_prefs and song["mood"].lower() == user_prefs["mood"].lower():
-        score += MOOD_POINTS
-        reasons.append(f"mood match (+{MOOD_POINTS})")
+    # EXPERIMENT: mood check temporarily disabled
+    # if "mood" in user_prefs and song["mood"].lower() == user_prefs["mood"].lower():
+    #     score += MOOD_POINTS
+    #     reasons.append(f"mood match (+{MOOD_POINTS})")
 
     # Numeric features: closer to the target earns more points.
     # Preferences the user didn't provide are skipped.

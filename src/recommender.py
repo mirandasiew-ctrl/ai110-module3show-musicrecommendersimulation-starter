@@ -81,10 +81,9 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     if "genre" in user_prefs and song["genre"].lower() == user_prefs["genre"].lower():
         score += GENRE_POINTS
         reasons.append(f"genre match (+{GENRE_POINTS})")
-    # EXPERIMENT: mood check temporarily disabled
-    # if "mood" in user_prefs and song["mood"].lower() == user_prefs["mood"].lower():
-    #     score += MOOD_POINTS
-    #     reasons.append(f"mood match (+{MOOD_POINTS})")
+    if "mood" in user_prefs and song["mood"].lower() == user_prefs["mood"].lower():
+        score += MOOD_POINTS
+        reasons.append(f"mood match (+{MOOD_POINTS})")
 
     # Numeric features: closer to the target earns more points.
     # Preferences the user didn't provide are skipped.

@@ -115,6 +115,13 @@ def test_genre_only_ties_keep_csv_order():
     assert [song["id"] for song, _, _ in results] == [2, 3]
 
 
+def test_mood_match_adds_points():
+    score, reasons = score_song({"genre": "lofi", "mood": "chill"}, make_song_dicts()[1])
+
+    assert score == 30
+    assert reasons == ["genre match (+15)", "mood match (+15)"]
+
+
 def test_negative_k_returns_all_but_last():
     # Known bug: ranked[:-1] slices off the last song instead of returning nothing
     results = recommend_songs({}, make_song_dicts(), k=-1)
